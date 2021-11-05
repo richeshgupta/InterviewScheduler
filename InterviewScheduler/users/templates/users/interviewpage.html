@@ -79,12 +79,13 @@ jQuery("#check-btn").click(function(){
             participant_ids.push($(this).attr("id"));
             
         });
+
+
        if(participant_ids.length < 2)
        {
          alert("No Interview between less than 2 participants");
        }
-       else
-       {
+       
             var from_date = $('.from-date').val();
             
             var to_date = $('.to-date').val();
@@ -97,12 +98,12 @@ jQuery("#check-btn").click(function(){
             data:{
               from_date:from_date,
               to_date:to_date,
-              participants:participant_ids,
+              //participants:participant_ids,
               csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
             },
             
           });
-        });
+        
        }
         
 
