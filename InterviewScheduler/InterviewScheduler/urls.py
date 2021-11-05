@@ -10,4 +10,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',InterviewPage,name='home'),
     path('test/',TestUI.as_view(),name='test'),
+    path('goc-interview/',GetOrCreateInterview,name='goc-interview'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

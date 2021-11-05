@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 # from django.utils.timezone import localtime 
+from django.utils.dateparse import parse_datetime
 
 
 class Interview(models.Model):

@@ -14,25 +14,31 @@ Home | InterviewScheduler
     <div class="col-md-6 mx-auto border  my-3">
         <h3 class="text text-primary mx-auto "> Select Participants </h3>
     </div>
+    
     <div class="col-md-6 mx-auto border my-3">
-      <h5>From</h5>
-      Date: <input type="text" id="field1" size="50"
-              value="Sunday, July 30th in the Year 1967 CE" /><br/>
-      Time: <input type="text" id="field2" value="12:34" />
-      </div>
-      <div class="col-md-6 mx-auto border my-3">
-      <h5>To</h5>
-      Date: <input type="text" id="field3" size="50"
-              value="Sunday, July 30th in the Year 1967 CE" /><br/>
-      Time: <input type="text" id="field4" value="12:34" />
-      </div>
+    {% csrf_token %}
+      
+      From: <input type="text" id="field1" size="20" class="from-date"/>
+      
     </div>
+    <div class="col-md-6 mx-auto border my-3">
+      
+      To: <input type="text" id="field3" size="20" class="to-date" />
+      
+    </div>
+    </div>
+  
         
-        {% for user in users %}
+        
         <div class="col-md-6 mx-auto">
-            {{user}} &nbsp;&nbsp;<input class="form-check-input" type="checkbox" value="" id="{{user.id}}">
+        
+            <ul>
+            {% for user in users %}
+            <li>  {{user}} &nbsp;&nbsp;<input class="form-check-input" type="checkbox" value="" id="{{user.id}}"></li>
+            {% endfor %}  
+            </ul>
         </div>        
-        {% endfor %}
+  
         
         {% for user in users %}
              <div class="form-check">
@@ -48,48 +54,59 @@ Home | InterviewScheduler
 </div>
 
 
+
 {% endblock body %}
-
-
-
-
-
 
 
 {% block script %}
 <script>
-  AnyTime.picker( "field1",
-    { format: "%W, %M %D in the Year %z %E", firstDOW: 1 } );
-
-  $("#field2").AnyTime_picker(
-    { format: "%H:%i", labelTitle: "Hour",
-      labelHour: "Hour", labelMinute: "Minutes" } );
+   AnyTime.picker( "field1",
+    { format: "%z-%m-%d %H:%i:%S", firstDOW: 1 });
+  
 
   AnyTime.picker( "field3",
-    { format: "%W, %M %D in the Year %z %E", firstDOW: 1 } );
+    { format: "%z-%m-%d %H:%i:%S", firstDOW: 1 });
 
-  $("#field4").AnyTime_picker(
-    { format: "%H:%i", labelTitle: "Hour",
-      labelHour: "Hour", labelMinute: "Minutes" } );
 
 </script>
 
 
 <script>
-
-//jQuery("#check-btn").click(function(){
-//        $('input:checkbox.form-check-input').each(function () {
-//            var sThisVal = (this.checked ? $(this).val() : "");
-//            
-        //});
-    //});
-
-  $("#check-btn").live("click", function () {
+jQuery("#check-btn").click(function(){
+        var participant_ids = []
         $("input:checkbox[class=form-check-input]:checked").each(function () {
-            alert("Id: " + $(this).attr("id") + " Value: " + $(this).val());
+            
+            participant_ids.push($(this).attr("id"));
+            
         });
-    });
+       if(participant_ids.length < 2)
+       {
+         alert("No Interview between less than 2 participants");
+       }
+       else
+       {
+            var from_date = $('.from-date').val();
+            
+            var to_date = $('.to-date').val();
+            
+          $.ajax({
+            type:'POST',
+            dataType:'json',
+            traditional:true,
+            url:'goc-interview/',
+            data:{
+              from_date:from_date,
+              to_date:to_date,
+              participants:participant_ids,
+              csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+            },
+            
+          });
+        });
+       }
+        
 
+        
 </script>
 {% endblock script%}
 
