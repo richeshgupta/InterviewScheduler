@@ -1,0 +1,95 @@
+
+{% extends 'users/base.html' %}
+{% load static %}
+{% block head %}
+<title>
+Home | InterviewScheduler
+</title>
+
+
+{% endblock head %}
+{% block body %}
+
+<div class="row-md-6 mx-auto my-5 mx-auto">
+    <div class="col-md-6 mx-auto border  my-3">
+        <h3 class="text text-primary mx-auto "> Select Participants </h3>
+    </div>
+    <div class="col-md-6 mx-auto border my-3">
+      <h5>From</h5>
+      Date: <input type="text" id="field1" size="50"
+              value="Sunday, July 30th in the Year 1967 CE" /><br/>
+      Time: <input type="text" id="field2" value="12:34" />
+      </div>
+      <div class="col-md-6 mx-auto border my-3">
+      <h5>To</h5>
+      Date: <input type="text" id="field3" size="50"
+              value="Sunday, July 30th in the Year 1967 CE" /><br/>
+      Time: <input type="text" id="field4" value="12:34" />
+      </div>
+    </div>
+        
+        {% for user in users %}
+        <div class="col-md-6 mx-auto">
+            {{user}} &nbsp;&nbsp;<input class="form-check-input" type="checkbox" value="" id="{{user.id}}">
+        </div>        
+        {% endfor %}
+        
+        {% for user in users %}
+             <div class="form-check">
+                
+            </div>
+        {% endfor %}
+
+</div>
+
+
+<div class="col-md-6 mx-auto">
+  <input type="submit" id="check-btn"/>
+</div>
+
+
+{% endblock body %}
+
+
+
+
+
+
+
+{% block script %}
+<script>
+  AnyTime.picker( "field1",
+    { format: "%W, %M %D in the Year %z %E", firstDOW: 1 } );
+
+  $("#field2").AnyTime_picker(
+    { format: "%H:%i", labelTitle: "Hour",
+      labelHour: "Hour", labelMinute: "Minutes" } );
+
+  AnyTime.picker( "field3",
+    { format: "%W, %M %D in the Year %z %E", firstDOW: 1 } );
+
+  $("#field4").AnyTime_picker(
+    { format: "%H:%i", labelTitle: "Hour",
+      labelHour: "Hour", labelMinute: "Minutes" } );
+
+</script>
+
+
+<script>
+
+//jQuery("#check-btn").click(function(){
+//        $('input:checkbox.form-check-input').each(function () {
+//            var sThisVal = (this.checked ? $(this).val() : "");
+//            
+        //});
+    //});
+
+  $("#check-btn").live("click", function () {
+        $("input:checkbox[class=form-check-input]:checked").each(function () {
+            alert("Id: " + $(this).attr("id") + " Value: " + $(this).val());
+        });
+    });
+
+</script>
+{% endblock script%}
+
