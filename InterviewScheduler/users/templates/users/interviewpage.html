@@ -42,7 +42,6 @@ Home | InterviewScheduler
         
         {% for user in users %}
              <div class="form-check">
-                
             </div>
         {% endfor %}
 
@@ -72,24 +71,24 @@ Home | InterviewScheduler
 
 
 <script>
+
 jQuery("#check-btn").click(function(){
         var participant_ids = []
-        $("input:checkbox[class=form-check-input]:checked").each(function () {
-            
+        $("input:checkbox[class=form-check-input]:checked").each(function () 
+        {
             participant_ids.push($(this).attr("id"));
-            
         });
 
+        alert(participant_ids);
 
-       if(participant_ids.length < 2)
-       {
-         alert("No Interview between less than 2 participants");
-       }
-       
-            var from_date = $('.from-date').val();
-            
-            var to_date = $('.to-date').val();
-            
+        if(participant_ids.length < 2)
+        {
+          alert("No Interview between less than 2 participants");
+        }
+        
+        var from_date = $('.from-date').val();
+        var to_date = $('.to-date').val();
+        
           $.ajax({
             type:'POST',
             dataType:'json',
@@ -98,16 +97,14 @@ jQuery("#check-btn").click(function(){
             data:{
               from_date:from_date,
               to_date:to_date,
-              //participants:participant_ids,
-              csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+              participants:participant_ids,
+              csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
             },
             
           });
         
-       }
-        
-
-        
+})
+         
 </script>
 {% endblock script%}
 
