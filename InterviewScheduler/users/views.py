@@ -48,6 +48,30 @@ def GetOrCreateInterview(request):
         objs  = Interview.objects.filter(start_time = from_date,end_time = to_date)
         if(not objs):    
             objs = Interview.objects.create(start_time=from_date,end_time = to_date,is_active = True)
+        
+        querysets = []
+        conflicts = []
+        for i in participants:
+            p_obj = []
+            user_obj = User.objects.get(id = int(i))
+            print(participants)
+            try:
+                p_obj = Participant.objects.get(parent_user = user_obj)
+                p_obj.interview.set(objs)
+                p_obj.save()
+            except:
+                p_obj = Participant.objects.create(parent_user =  user_obj)
+                p_obj.interview.set(objs)
+            # if(not p_obj):
+            #     p_obj = Participant.objects.create(parent_user =  int(i))
+            #     print("Objs cr",p_obj)
+            #     p_obj.interview.add(objs)
+                p_obj.save()
+            # else:
+                # p_obj.interview.add(objs)
+                # p_obj.save()
+
+            
             
     else:
         return render(request,"users/interviewpage.html",{})
