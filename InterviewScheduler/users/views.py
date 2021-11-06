@@ -58,18 +58,12 @@ def GetOrCreateInterview(request):
             try:
                 p_obj = Participant.objects.get(parent_user = user_obj)
                 p_obj.interview.set(objs)
-                p_obj.save()
+                print("Interview slots : ",p_obj.interview)
             except:
                 p_obj = Participant.objects.create(parent_user =  user_obj)
                 p_obj.interview.set(objs)
-            # if(not p_obj):
-            #     p_obj = Participant.objects.create(parent_user =  int(i))
-            #     print("Objs cr",p_obj)
-            #     p_obj.interview.add(objs)
-                p_obj.save()
-            # else:
-                # p_obj.interview.add(objs)
-                # p_obj.save()
+                print("Interview slots : ",p_obj.interview)    
+            p_objs.save()
 
             
             
